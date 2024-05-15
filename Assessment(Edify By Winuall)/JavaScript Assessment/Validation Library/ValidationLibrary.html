@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    input:invalid {
+      border: 2px dashed red;
+    }
+
+    input:valid {
+      border: 2px solid green;
+    }
+  </style>
+</head>
+
+<body>
+  <form>
+    <fieldset>
+      <legend>Do you have a driver's license?<span aria-label="required">*</span></legend>
+      <div>
+        <label for="choose">Would you prefer a banana or a cherry?</label>
+        <input type="text" id="choose" name="i-like" required minlength="6" maxlength="6" />
+      </div>
+      <div>
+        <label for="number">How many would you like?</label>
+        <input type="number" id="number" name="amount" value="1" min="1" max="10" />
+      </div>
+      <div>
+        <label for="email">I would like you to provide me with an email address:</label>
+        <input type="email" id="mail" name="mail" />
+      </div>
+      <div>
+        <label for="password">Enter your password:</label>
+        <input type="password" id="password" name="password" required minlength="8" />
+      </div>
+      <div>
+        <button>Submit</button>
+      </div>
+    </fieldset>
+  </form>
+
+  <script>
+    const form = document.querySelector('form');
+    const inputs = form.querySelectorAll('input');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      let isValid = true;
+      inputs.forEach((input) => {
+        if (!input.validity.valid) {
+          isValid = false;
+          input.setCustomValidity('Invalid input');
+        } else {
+          input.setCustomValidity('');
+        }
+      });
+      if (isValid) {
+        // Form is valid, submit it
+        form.submit();
+      } else {
+        // Form is invalid, display error messages
+        console.log('Form is invalid');
+      }
+    });
+
+    const email = document.getElementById("mail");
+    email.addEventListener("input", (event) => {
+      if (email.validity.typeMismatch) {
+        email.setCustomValidity("I am expecting an email address!");
+      } else {
+        email.setCustomValidity("");
+      }
+    });
+  </script>
+</body>
+
+</html>
